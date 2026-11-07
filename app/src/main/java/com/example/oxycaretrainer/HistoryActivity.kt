@@ -12,6 +12,7 @@ class HistoryActivity : AppCompatActivity() {
     override fun onCreate(state: Bundle?) {
         super.onCreate(state); setContentView(R.layout.activity_history)
         supportActionBar?.setDisplayHomeAsUpEnabled(true); supportActionBar?.title = "История тренировок"
+        findViewById<Button>(R.id.btn_progress).setOnClickListener { startActivity(Intent(this, ProgressActivity::class.java)) }
     }
     override fun onResume() {
         super.onResume()
