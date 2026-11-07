@@ -11,14 +11,32 @@ android {
         applicationId = "com.example.oxycaretrainer"
         minSdk = 24
         targetSdk = 34
-        versionCode = 3
-        versionName = "1.2"
+        versionCode = 4
+        versionName = "1.3.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    // Постоянная подпись нужна, чтобы обновления ставились поверх установленной версии.
+    // Ключ передаётся через переменные окружения (секреты GitHub); без них сборка подписывается обычным debug-ключом.
+    val keystorePath = System.getenv("KEYSTORE_PATH")
+    signingConfigs {
+        if (keystorePath != null) {
+            create("shared") {
+                storeFile = file(keystorePath)
+                storePassword = System.getenv("KEYSTORE_PASSWORD")
+                keyAlias = System.getenv("KEY_ALIAS")
+                keyPassword = System.getenv("KEY_PASSWORD")
+            }
+        }
+    }
+
     buildTypes {
+        debug {
+            if (keystorePath != null) signingConfig = signingConfigs.getByName("shared")
+        }
         release {
+            if (keystorePath != null) signingConfig = signingConfigs.getByName("shared")
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }

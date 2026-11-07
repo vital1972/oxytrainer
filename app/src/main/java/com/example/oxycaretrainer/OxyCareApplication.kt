@@ -8,5 +8,6 @@ class OxyCareApplication : Application() {
         DiagnosticLogger.initialize(this)
         DiagnosticLogger.installCrashHandler()
         DiagnosticLogger.info("process_started", "process=${android.os.Process.myPid()}")
+        UpdateChecker.autoCheck(this)
     }
 }
