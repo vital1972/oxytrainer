@@ -3,10 +3,39 @@ package com.example.oxycaretrainer
 import android.content.Intent
 import android.os.Bundle
 import android.widget.*
+import android.net.Uri
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 
 class SettingsActivity : AppCompatActivity() {
+    private val exportHistory = registerForActivityResult(ActivityResultContracts.CreateDocument("application/json")) { uri -> uri?.let { writeHistory(it) } }
+    private val importHistory = registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri -> uri?.let { readHistory(it) } }
+
+    private fun writeHistory(uri: Uri) {
+        runCatching {
+            val sessions = SessionRepository(this).all()
+            contentResolver.openOutputStream(uri, "wt")!!.use { it.write(HistoryBackup.toJson(sessions).toByteArray(Charsets.UTF_8)) }
+            Toast.makeText(this, "Сохранено сеансов: ${sessions.size}", Toast.LENGTH_LONG).show()
+        }.onFailure {
+            DiagnosticLogger.error("history_export_failed", it)
+            Toast.makeText(this, "Не удалось сохранить файл", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun readHistory(uri: Uri) {
+        runCatching {
+            val text = contentResolver.openInputStream(uri)!!.use { it.readBytes().toString(Charsets.UTF_8) }
+            val result = HistoryBackup.parse(text)
+            val saved = SessionRepository(this).importAll(result.sessions)
+            val skipped = result.skipped + (result.sessions.size - saved)
+            Toast.makeText(this, "Загружено сеансов: $saved" + if (skipped > 0) ", пропущено: $skipped" else "", Toast.LENGTH_LONG).show()
+        }.onFailure {
+            DiagnosticLogger.error("history_import_failed", it)
+            Toast.makeText(this, it.message ?: "Не удалось загрузить файл", Toast.LENGTH_LONG).show()
+        }
+    }
+
     override fun onCreate(state: Bundle?) {
         super.onCreate(state); setContentView(R.layout.activity_settings)
         supportActionBar?.setDisplayHomeAsUpEnabled(true); supportActionBar?.title = "Настройки тренировки"
@@ -21,6 +50,8 @@ class SettingsActivity : AppCompatActivity() {
                 else -> { AppSettings.save(this, AppSettings(t, p, l)); Toast.makeText(this, "Настройки сохранены", Toast.LENGTH_SHORT).show(); finish() }
             }
         }
+        findViewById<Button>(R.id.btn_export_history).setOnClickListener { exportHistory.launch("oxycare-history.json") }
+        findViewById<Button>(R.id.btn_import_history).setOnClickListener { importHistory.launch(arrayOf("application/json", "text/plain", "application/octet-stream")) }
         findViewById<Button>(R.id.btn_export_log).setOnClickListener {
             runCatching {
                 val file = DiagnosticLogger.createExportFile(this)
