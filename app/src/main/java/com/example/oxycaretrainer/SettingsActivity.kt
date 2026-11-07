@@ -50,6 +50,7 @@ class SettingsActivity : AppCompatActivity() {
                 else -> { AppSettings.save(this, AppSettings(t, p, l)); Toast.makeText(this, "Настройки сохранены", Toast.LENGTH_SHORT).show(); finish() }
             }
         }
+        findViewById<Button>(R.id.btn_programs).setOnClickListener { startActivity(Intent(this, ProgramsActivity::class.java)) }
         findViewById<Button>(R.id.btn_export_history).setOnClickListener { exportHistory.launch("oxycare-history.json") }
         findViewById<Button>(R.id.btn_import_history).setOnClickListener { importHistory.launch(arrayOf("application/json", "text/plain", "application/octet-stream")) }
         findViewById<Button>(R.id.btn_export_log).setOnClickListener {
