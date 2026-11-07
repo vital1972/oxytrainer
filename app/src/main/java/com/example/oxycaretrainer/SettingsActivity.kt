@@ -51,6 +51,7 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
         findViewById<Button>(R.id.btn_programs).setOnClickListener { startActivity(Intent(this, ProgramsActivity::class.java)) }
+        findViewById<Button>(R.id.btn_updates).setOnClickListener { startActivity(Intent(this, UpdateActivity::class.java)) }
         findViewById<Button>(R.id.btn_export_history).setOnClickListener { exportHistory.launch("oxycare-history.json") }
         findViewById<Button>(R.id.btn_import_history).setOnClickListener { importHistory.launch(arrayOf("application/json", "text/plain", "application/octet-stream")) }
         findViewById<Button>(R.id.btn_export_log).setOnClickListener {
