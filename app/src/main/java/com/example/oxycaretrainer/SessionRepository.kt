@@ -26,6 +26,9 @@ class SessionRepository(context: Context) {
         .mapNotNull { runCatching { TrainingSession.fromJson(org.json.JSONObject(it.readText())) }.getOrNull() }
         .sortedByDescending { it.startTime }
 
+    /** Импорт: сеансы с совпадающим id перезаписываются. Возвращает число сохранённых. */
+    fun importAll(sessions: List<TrainingSession>): Int = sessions.count { runCatching { save(it) }.isSuccess }
+
     fun delete(id: String): Boolean {
         val deleted = File(dir, "$id.json").delete()
         if (deleted) DiagnosticLogger.info("session_deleted", "id=$id")
