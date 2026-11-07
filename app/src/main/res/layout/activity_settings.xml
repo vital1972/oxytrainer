@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="24dp">
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Общее время тренировки, минут" />
+    <EditText android:id="@+id/et_total" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="number" />
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:text="Длительность каждой фазы, минут" />
+    <EditText android:id="@+id/et_phase" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="number" />
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:text="Нижний порог SpO₂, %" />
+    <EditText android:id="@+id/et_low" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="number" />
+    <Button android:id="@+id/btn_save" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="24dp" android:text="Сохранить" />
+    <Button
+        android:id="@+id/btn_export_log"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Экспортировать журнал диагностики" />
+</LinearLayout></ScrollView>

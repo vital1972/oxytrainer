@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="app_background">#F4F7FB</color>
+    <color name="text_primary">#132238</color>
+    <color name="text_secondary">#607087</color>
+    <color name="card_border">#DCE4EE</color>
+    <color name="card_spo2">#E7F5FC</color>
+    <color name="card_pulse">#FCECEF</color>
+    <color name="card_timer">#EDF1F8</color>
+    <color name="card_searching">#E8F0FE</color>
+    <color name="card_unavailable">#E7E9ED</color>
+    <color name="card_disconnected">#FFF0B8</color>
+    <color name="card_low_spo2">#FFD9D7</color>
+    <color name="card_mask_on">#FFF0B8</color>
+    <color name="card_mask_off">#D9F2DF</color>
+    <color name="spo2_accent">#087BB5</color>
+    <color name="pulse_accent">#C9475A</color>
+    <color name="timer_accent">#315A93</color>
+    <color name="phase_accent">#7C6511</color>
+</resources>
